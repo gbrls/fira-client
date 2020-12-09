@@ -140,9 +140,12 @@ double x,y,ang;
 
 Objective defineObjective(fira_message::sim_to_ref::Robot robot, fira_message::sim_to_ref::Ball ball)
 {   
+
+    printf("eu: ID: %u\n",robot.robot_id());
+
     //Implementar a estratégia aqui
     //Deve retornar o objetivo do robô
-    return Objective(x, y, ang);
+    return Objective(ball.x(), ball.y(), 0);
 }
 
 int main(int argc, char *argv[]){
@@ -152,7 +155,7 @@ int main(int argc, char *argv[]){
     bool my_robots_are_yellow = false;
     
     // the ip address need to be in the range 224.0.0.0 through 239.255.255.255
-    RoboCupSSLClient *visionClient = new RoboCupSSLClient("224.5.23.2", 10002);
+    RoboCupSSLClient *visionClient = new RoboCupSSLClient("224.0.0.1", 10002);
     visionClient->open(false);
 
 
@@ -193,10 +196,10 @@ int main(int argc, char *argv[]){
                     robot.set_orientation(to180range(robot.orientation()));
                     printf("-Robot(B) (%2d/%2d): ",i+1, robots_blue_n);
                     printRobotInfo(robot);
-                    if(i==0){
+                    //if(i==0){
                         Objective o = defineObjective(robot,ball);
                         PID(robot,o,i,commandClient);
-                    }
+                    //}
                 }
 
                 //Yellow robot info:
